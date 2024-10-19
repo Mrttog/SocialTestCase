@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    -- Colors below are fetched from social deal website --
+    <color name="light_blue">#0081e9</color>
+    <color name="light_gray">#9e9fa0</color>
+    <color name="green">#68be73</color>
 </resources>
