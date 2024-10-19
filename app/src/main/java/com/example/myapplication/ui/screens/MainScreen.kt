@@ -17,11 +17,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.example.myapplication.data.Deal
 import com.example.myapplication.ui.components.BottomNavItem
 import com.example.myapplication.ui.components.BottomNavigationBar
 
 @Composable
-fun MainScreen() {
+fun MainScreen(deals: List<Deal>) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     val items = listOf(
@@ -57,7 +58,7 @@ fun MainScreen() {
             .padding(innerPadding)
         ) {
             when (selectedTabIndex) {
-                0 -> HomeScreen()
+                0 -> HomeScreen(deals = deals)
                 1 -> FavoriteScreen()
                 2 -> SettingsScreen()
             }

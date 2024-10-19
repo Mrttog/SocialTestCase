@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.components
 
 import android.content.res.Resources.Theme
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,12 +27,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import coil3.compose.rememberAsyncImagePainter
 import com.example.myapplication.R
-import com.example.myapplication.api.utils.UtilPrice.toFormattedPrice
+import com.example.myapplication.utils.UtilPrice.toFormattedPrice
 import com.example.myapplication.data.Deal
+import com.example.myapplication.utils.UtilImage.addPrefix
 
 
 @Composable
@@ -52,7 +55,7 @@ fun DealItem(
         ) {
             Box {
                 Image(
-                    painter = rememberAsyncImagePainter(deal.image),
+                    painter = rememberAsyncImagePainter(deal.image.addPrefix()),
                     contentDescription = deal.title,
                     modifier = modifier.fillMaxWidth()
                 )
@@ -97,32 +100,37 @@ fun DealItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = deal.soldLabel,
+                text = deal.sold_label,
                 style = MaterialTheme.typography.body2,
                 color = lightBlue
             )
             Row{
-               Text(
-                   text = deal.prices.from_price.currency.symbol,
-                   style = MaterialTheme.typography.subtitle2,
-                   color = lightGray
-               )
+
+                if (deal.prices.from_price != null) {
+                    Text(
+                        text = deal.prices.from_price.currency.symbol,
+                        style = MaterialTheme.typography.subtitle2,
+                        color = lightGray,
+                        textDecoration = TextDecoration.LineThrough
+                    )
+
+                    Text(
+                        text = deal.prices.from_price.amount.toFormattedPrice(),
+                        style = MaterialTheme.typography.subtitle2,
+                        color = lightGray,
+                        modifier = modifier.padding(end = 8.dp),
+                        textDecoration = TextDecoration.LineThrough
+                    )
+                }
 
                 Text(
-                    text = deal.prices.from_price.amount.toFormattedPrice(),
-                    style = MaterialTheme.typography.subtitle2,
-                    color = lightGray,
-                    modifier = modifier.padding(end = 8.dp)
-                )
-
-                Text(
-                    text = deal.prices.price.currency.symbol,
+                    text = deal.prices.price?.currency?.symbol ?: "",
                     style = MaterialTheme.typography.subtitle1,
                     color = green
                 )
 
                 Text(
-                    text = deal.prices.price.amount.toFormattedPrice(),
+                    text = deal.prices.price?.amount?.toFormattedPrice() ?: "Gratis",
                     style = MaterialTheme.typography.h6,
                     color = green
                 )
