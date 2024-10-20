@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.api.models.DealResponse
+import com.example.myapplication.api.repository.ConversionRepository
 import com.example.myapplication.api.repository.DealRepository
 import com.example.myapplication.api.repository.FavoriteRepository
 import com.example.myapplication.api.room.daos.FavoriteDao
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class DealViewModel @Inject constructor(
     private val dealRepository: DealRepository,
     private val favoriteRepository: FavoriteRepository,
+    private val conversionRepository: ConversionRepository
 ) : ViewModel() {
 
     var dealsList by mutableStateOf<List<Deal>>(emptyList())
@@ -31,6 +33,9 @@ class DealViewModel @Inject constructor(
         private set
 
     var deal by mutableStateOf<DealResponse?>(null)
+        private set
+
+    var conversionRate by mutableStateOf<Double>(1.08)
         private set
 
     fun getDeals() {
@@ -55,16 +60,27 @@ class DealViewModel @Inject constructor(
         }
     }
 
+    fun getConversionRate() {
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                conversionRepository.getConversion()
+            }
+            if (response.isSuccessful) {
+                val conversion = response.body()
+                conversionRate = conversion?.data?.USD?.value ?: 1.08
+            } else {
+                // handle error
+            }
+        }
+    }
+
     fun getDeal(id: String) {
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                Log.d("tigo", "id: ${id}")
                 dealRepository.getDeal(id)
             }
-            Log.d("tigo", "response: ${response.body()}")
             if (response.isSuccessful) {
                 deal = response.body()
-                Log.d("tigo", "deal: ${deal}")
             } else {
                 // handle error
             }

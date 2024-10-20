@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.ui.screens.ItemScreen
+import com.example.myapplication.utils.PreferencesManager
 import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
@@ -30,11 +31,12 @@ class MainActivity : ComponentActivity() {
                 composable<MainScreen> {
                     val dealsViewModel: DealViewModel = hiltViewModel()
                     LaunchedEffect(Unit) {
+                        dealsViewModel.getConversionRate()
                         dealsViewModel.getDeals()
                     }
                     MainScreen(
-                        deals = dealsViewModel.dealsList,
                         dealViewModel = dealsViewModel,
+                        preferenceManager = PreferencesManager(this@MainActivity),
                         onDealClicked = {
                             navController.navigate(DetailScreen(it))
                         })

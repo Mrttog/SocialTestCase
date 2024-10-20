@@ -37,6 +37,7 @@ import com.example.myapplication.R
 import com.example.myapplication.utils.UtilPrice.toFormattedPrice
 import com.example.myapplication.data.Deal
 import com.example.myapplication.utils.UtilImage.addPrefix
+import com.example.myapplication.utils.UtilPrice
 
 
 @Composable
@@ -131,7 +132,7 @@ fun DealItem(
 
                 Text(
                     text = deal.prices.price?.currency?.symbol ?: "",
-                    style = MaterialTheme.typography.subtitle1,
+                    style = MaterialTheme.typography.h6,
                     color = green
                 )
 

@@ -21,9 +21,10 @@ import com.example.myapplication.data.Deal
 import com.example.myapplication.ui.components.BottomNavItem
 import com.example.myapplication.ui.components.BottomNavigationBar
 import com.example.myapplication.ui.viewmodels.DealViewModel
+import com.example.myapplication.utils.PreferencesManager
 
 @Composable
-fun MainScreen(deals: List<Deal>, onDealClicked: (String) -> Unit, dealViewModel: DealViewModel) {
+fun MainScreen(onDealClicked: (String) -> Unit, dealViewModel: DealViewModel, preferenceManager: PreferencesManager) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     val items = listOf(
@@ -60,8 +61,10 @@ fun MainScreen(deals: List<Deal>, onDealClicked: (String) -> Unit, dealViewModel
         ) {
             when (selectedTabIndex) {
                 0 -> HomeScreen(
-                    deals = deals,
+                    deals = dealViewModel.dealsList,
                     onDealClicked = onDealClicked,
+                    dealViewModel = dealViewModel,
+                    currency = preferenceManager.getCurrencyPreference(),
                     onFavoriteClicked = { deal ->
                         dealViewModel.onFavoriteClicked(deal)
                     }
@@ -69,11 +72,13 @@ fun MainScreen(deals: List<Deal>, onDealClicked: (String) -> Unit, dealViewModel
                 1 -> FavoriteScreen(
                     favoriteDeals = dealViewModel.favoriteDealsList,
                     onDealClicked = onDealClicked,
+                    dealViewModel = dealViewModel,
+                    currency = preferenceManager.getCurrencyPreference(),
                     onFavoriteClicked = { deal ->
                         dealViewModel.onFavoriteClicked(deal)
                     }
                 )
-                2 -> SettingsScreen()
+                2 -> SettingsScreen(preferenceManager)
             }
         }
     }

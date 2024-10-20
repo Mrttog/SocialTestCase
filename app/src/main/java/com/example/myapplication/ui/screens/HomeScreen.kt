@@ -16,11 +16,15 @@ import com.example.myapplication.data.Deal
 import com.example.myapplication.data.Price
 import com.example.myapplication.data.Prices
 import com.example.myapplication.ui.components.DealItem
+import com.example.myapplication.ui.viewmodels.DealViewModel
+import com.example.myapplication.utils.UtilPrice
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     deals: List<Deal>,
+    dealViewModel: DealViewModel,
+    currency: Boolean,
     onDealClicked: (String) -> Unit,
     onFavoriteClicked: (Deal) -> Unit
 ) {
@@ -30,8 +34,36 @@ fun HomeScreen(
         items(
             items = deals
         ) { deal ->
+            val formattedPrice = UtilPrice.convertPrice(
+                deal.prices.price?.amount ?: 0.0,
+                currency,
+                dealViewModel.conversionRate
+            )
+
+            val formattedFromPrice = UtilPrice.convertPrice(
+                deal.prices.from_price?.amount ?: 0.0,
+                currency,
+                dealViewModel.conversionRate
+            )
             DealItem(
-                deal = deal,
+                deal = deal.copy(
+                    prices = deal.prices.copy(
+                        price = Price(
+                            amount = formattedPrice,
+                            currency = Currency(
+                                symbol = if (currency) "$" else "€",
+                                code = if (currency) "USD" else "EUR"
+                            )
+                        ),
+                        from_price = Price(
+                            amount = formattedFromPrice,
+                            currency = Currency(
+                                symbol = if (currency) "$" else "€",
+                                code = if (currency) "USD" else "EUR"
+                            )
+                        )
+                    )
+                ),
                 onFavoriteClicked = { onFavoriteClicked(deal) },
                 modifier = Modifier.clickable {
                     onDealClicked(deal.unique)
