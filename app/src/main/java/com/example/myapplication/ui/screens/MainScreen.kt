@@ -20,9 +20,10 @@ import androidx.compose.ui.Modifier
 import com.example.myapplication.data.Deal
 import com.example.myapplication.ui.components.BottomNavItem
 import com.example.myapplication.ui.components.BottomNavigationBar
+import com.example.myapplication.ui.viewmodels.DealViewModel
 
 @Composable
-fun MainScreen(deals: List<Deal>) {
+fun MainScreen(deals: List<Deal>, onDealClicked: (String) -> Unit, dealViewModel: DealViewModel) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     val items = listOf(
@@ -58,8 +59,20 @@ fun MainScreen(deals: List<Deal>) {
             .padding(innerPadding)
         ) {
             when (selectedTabIndex) {
-                0 -> HomeScreen(deals = deals)
-                1 -> FavoriteScreen()
+                0 -> HomeScreen(
+                    deals = deals,
+                    onDealClicked = onDealClicked,
+                    onFavoriteClicked = { deal ->
+                        dealViewModel.onFavoriteClicked(deal)
+                    }
+                )
+                1 -> FavoriteScreen(
+                    favoriteDeals = dealViewModel.favoriteDealsList,
+                    onDealClicked = onDealClicked,
+                    onFavoriteClicked = { deal ->
+                        dealViewModel.onFavoriteClicked(deal)
+                    }
+                )
                 2 -> SettingsScreen()
             }
         }

@@ -1,10 +1,13 @@
 package com.example.myapplication.di
 
+import com.example.myapplication.api.room.AppDatabase
+import com.example.myapplication.api.room.daos.FavoriteDao
 import com.example.myapplication.api.services.DealsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -29,4 +32,5 @@ object NetworkModule {
     fun provideDealsApi(retrofit: Retrofit): DealsService {
         return retrofit.create(DealsService::class.java)
     }
+
 }

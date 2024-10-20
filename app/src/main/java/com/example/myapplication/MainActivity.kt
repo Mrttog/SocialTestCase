@@ -8,17 +8,53 @@ import com.example.myapplication.ui.screens.MainScreen
 import com.example.myapplication.ui.viewmodels.DealViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.myapplication.ui.screens.ItemScreen
+import kotlinx.serialization.Serializable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val dealsViewModel: DealViewModel = hiltViewModel()
-            LaunchedEffect(Unit) {
-                dealsViewModel.getDeals()
+            val navController = rememberNavController()
+
+            NavHost(
+                navController = navController,
+                startDestination = MainScreen
+            ) {
+
+                composable<MainScreen> {
+                    val dealsViewModel: DealViewModel = hiltViewModel()
+                    LaunchedEffect(Unit) {
+                        dealsViewModel.getDeals()
+                    }
+                    MainScreen(
+                        deals = dealsViewModel.dealsList,
+                        dealViewModel = dealsViewModel,
+                        onDealClicked = {
+                            navController.navigate(DetailScreen(it))
+                        })
+                }
+
+                composable<DetailScreen> {
+                    val args = it.toRoute<DetailScreen>()
+                    val dealsViewModel: DealViewModel = hiltViewModel()
+                    LaunchedEffect(Unit) {
+                        dealsViewModel.getDeal(args.dealId)
+                    }
+                    ItemScreen(dealsViewModel.deal)
+                }
             }
-            MainScreen(dealsViewModel.deals)
         }
     }
 }
+
+@Serializable
+object MainScreen
+
+@Serializable
+data class DetailScreen(val dealId: String)

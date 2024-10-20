@@ -16,9 +16,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -40,7 +42,8 @@ import com.example.myapplication.utils.UtilImage.addPrefix
 @Composable
 fun DealItem(
     deal: Deal,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onFavoriteClicked: () -> Unit
 ) {
 
     val lightBlue = Color(ContextCompat.getColor(LocalContext.current, R.color.light_blue))
@@ -59,17 +62,20 @@ fun DealItem(
                     contentDescription = deal.title,
                     modifier = modifier.fillMaxWidth()
                 )
-                Icon(
-                    imageVector = Icons.Outlined.FavoriteBorder,
-                    contentDescription = null,
-                    tint = Color.White,
+                IconButton(
+                    onClick = {
+                        onFavoriteClicked()
+                    },
                     modifier = modifier
                         .align(Alignment.BottomEnd)
                         .padding(16.dp)
-                        .clickable {
-
-                        }
-                )
+                ) {
+                    Icon(
+                        imageVector = if (deal.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                        tint = if (deal.isFavorite) Color.Red else Color.White,
+                        contentDescription = null,
+                    )
+                }
             }
         }
 
@@ -104,7 +110,7 @@ fun DealItem(
                 style = MaterialTheme.typography.body2,
                 color = lightBlue
             )
-            Row{
+            Row {
 
                 if (deal.prices.from_price != null) {
                     Text(

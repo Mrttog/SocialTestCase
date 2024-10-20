@@ -7,4 +7,5 @@ class DealRepository @Inject constructor(
     private val dealsService: DealsService
 ) {
     suspend fun getDeals() = dealsService.getDeals()
+    suspend fun getDeal(id: String) = dealsService.getDeal()
 }

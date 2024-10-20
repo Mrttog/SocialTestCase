@@ -1,8 +1,13 @@
 package com.example.myapplication.api.models
 
-import com.example.myapplication.data.Deal
+import com.example.myapplication.data.Prices
 
 data class DealResponse (
-    val num_deals: Int,
-    val deals: List<Deal>
+    val unique: String,
+    val title: String,
+    val company: String,
+    val description: String,
+    val city: String,
+    val sold_label: String,
+    val prices: Prices
 )

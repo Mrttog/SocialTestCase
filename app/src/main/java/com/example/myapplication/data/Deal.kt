@@ -7,5 +7,6 @@ data class Deal(
     val sold_label: String,
     val company: String,
     val city: String,
-    val prices: Prices
+    val prices: Prices,
+    var isFavorite: Boolean = false
 )

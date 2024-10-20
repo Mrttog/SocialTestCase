@@ -16,8 +16,9 @@ navigationRuntimeKtx = "2.8.3"
 retrofit = "2.11.0"
 compose = "1.7.4"
 material = "1.7.4"
-hilt = "2.51.1"
-multidex = "2.0.1"
+composeNavigation = "2.8.3"
+serialization = "1.6.3"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -46,10 +47,14 @@ compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compos
 compose-material = { group = "androidx.compose.material", name = "material", version.ref = "material" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-multidex = { module = "com.android.support:multidex", version = "multidex" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
+serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
+room = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
-
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid"}
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
