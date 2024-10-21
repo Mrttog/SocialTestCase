@@ -9,6 +9,7 @@ data class DealEntity(
     @PrimaryKey val unique: String,
     val title: String,
     val image: String,
+    val description: String?,
     val sold_label: String,
     val company: String,
     val city: String,

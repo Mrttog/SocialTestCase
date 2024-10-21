@@ -6,11 +6,13 @@ import com.example.myapplication.api.room.AppDatabase
 import com.example.myapplication.api.room.daos.FavoriteDao
 import com.example.myapplication.api.services.ConversionService
 import com.example.myapplication.api.services.DealsService
+import com.example.myapplication.utils.TrailingCommaInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Qualifier
@@ -23,12 +25,22 @@ object NetworkModule {
     private const val BASE_URL_SOCIAL_DEAL = "https://media.socialdeal.nl/"
     private const val BASE_URL_CONVERSION = "https://api.currencyapi.com/"
 
+    private val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .addInterceptor(TrailingCommaInterceptor())
+        .build()
+
     @Provides
     @Singleton
     @BaseUrlSocial
     fun provideSocialDealsRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_SOCIAL_DEAL)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

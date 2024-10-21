@@ -1,8 +1,11 @@
 package com.example.myapplication.data
 
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+
 data class Prices (
-    val price: Price?,
-    val from_price: Price?,
-    val price_label: String?,
-    val discount_label: String?
+    @SerializedName("price") val price: Price?,
+    @SerializedName("from_price") val fromPrice: Price?,
+    @SerializedName("price_label") val priceLabel: String?,
+    @SerializedName("discount_label") val discountLabel: String?
 )

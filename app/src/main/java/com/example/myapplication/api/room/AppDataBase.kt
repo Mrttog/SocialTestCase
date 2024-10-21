@@ -9,7 +9,7 @@ import com.example.myapplication.api.room.daos.FavoriteDao
 import com.example.myapplication.api.room.entities.DealEntity
 import com.example.myapplication.utils.RoomTypeConverters
 
-@Database(entities = [DealEntity::class], version = 1)
+@Database(entities = [DealEntity::class], version = 2)
 @TypeConverters(RoomTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun dealDao(): FavoriteDao

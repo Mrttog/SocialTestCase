@@ -44,7 +44,7 @@ import com.example.myapplication.utils.UtilPrice
 fun DealItem(
     deal: Deal,
     modifier: Modifier = Modifier,
-    onFavoriteClicked: () -> Unit
+    onFavoriteClicked: () -> Unit,
 ) {
 
     val lightBlue = Color(ContextCompat.getColor(LocalContext.current, R.color.light_blue))
@@ -52,30 +52,32 @@ fun DealItem(
     val green = Color(ContextCompat.getColor(LocalContext.current, R.color.green))
 
     Column(modifier.padding(16.dp)) {
-        Card(
-            modifier = modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(8.dp),
-            elevation = 0.dp
-        ) {
-            Box {
-                Image(
-                    painter = rememberAsyncImagePainter(deal.image.addPrefix()),
-                    contentDescription = deal.title,
-                    modifier = modifier.fillMaxWidth()
-                )
-                IconButton(
-                    onClick = {
-                        onFavoriteClicked()
-                    },
-                    modifier = modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp)
-                ) {
-                    Icon(
-                        imageVector = if (deal.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                        tint = if (deal.isFavorite) Color.Red else Color.White,
-                        contentDescription = null,
+        if (!deal.image.isNullOrEmpty()) {
+            Card(
+                modifier = modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp),
+                elevation = 0.dp
+            ) {
+                Box {
+                    Image(
+                        painter = rememberAsyncImagePainter(deal.image.addPrefix()),
+                        contentDescription = deal.title,
+                        modifier = modifier.fillMaxWidth()
                     )
+                    IconButton(
+                        onClick = {
+                            onFavoriteClicked()
+                        },
+                        modifier = modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(16.dp)
+                    ) {
+                        Icon(
+                            imageVector = if (deal.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                            tint = if (deal.isFavorite) Color.Red else Color.White,
+                            contentDescription = null,
+                        )
+                    }
                 }
             }
         }
@@ -113,16 +115,16 @@ fun DealItem(
             )
             Row {
 
-                if (deal.prices.from_price != null) {
+                if (deal.prices.fromPrice != null) {
                     Text(
-                        text = deal.prices.from_price.currency.symbol,
+                        text = deal.prices.fromPrice.currency.symbol,
                         style = MaterialTheme.typography.subtitle2,
                         color = lightGray,
                         textDecoration = TextDecoration.LineThrough
                     )
 
                     Text(
-                        text = deal.prices.from_price.amount.toFormattedPrice(),
+                        text = deal.prices.fromPrice.amount.toFormattedPrice(),
                         style = MaterialTheme.typography.subtitle2,
                         color = lightGray,
                         modifier = modifier.padding(end = 8.dp),

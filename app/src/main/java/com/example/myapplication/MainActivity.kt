@@ -48,7 +48,13 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(Unit) {
                         dealsViewModel.getDeal(args.dealId)
                     }
-                    ItemScreen(dealsViewModel.deal)
+                    dealsViewModel.deal?.let { deal ->
+                        ItemScreen(
+                            deal = deal,
+                            dealViewModel = dealsViewModel,
+                            preferencesManager = PreferencesManager(this@MainActivity)
+                        )
+                    }
                 }
             }
         }

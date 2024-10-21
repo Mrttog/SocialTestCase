@@ -8,5 +8,5 @@ class DealRepository @Inject constructor(
     @BaseUrlSocial private val dealsService: DealsService
 ) {
     suspend fun getDeals() = dealsService.getDeals()
-    suspend fun getDeal(id: String) = dealsService.getDeal()
+    suspend fun getDeal(id: String) = dealsService.getDeal(id)
 }

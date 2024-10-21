@@ -12,5 +12,5 @@ interface DealsService {
 
     @GET("demo/details.json")
     // call with query id
-    suspend fun getDeal(): Response<DealResponse>
+    suspend fun getDeal(@Query("id") id: String): Response<DealResponse>
 }

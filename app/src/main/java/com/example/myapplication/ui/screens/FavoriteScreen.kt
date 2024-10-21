@@ -37,7 +37,7 @@ fun FavoriteScreen(
                 dealViewModel.conversionRate
             )
             val formattedFromPrice = UtilPrice.convertPrice(
-                deal.prices.from_price?.amount ?: 0.0,
+                deal.prices.fromPrice?.amount ?: 0.0,
                 currency,
                 dealViewModel.conversionRate
             )
@@ -51,7 +51,7 @@ fun FavoriteScreen(
                                 code = if (currency) "USD" else "EUR"
                             )
                         ),
-                        from_price = Price(
+                        fromPrice = Price(
                             amount = formattedFromPrice,
                             currency = Currency(
                                 symbol = if (currency) "$" else "€",

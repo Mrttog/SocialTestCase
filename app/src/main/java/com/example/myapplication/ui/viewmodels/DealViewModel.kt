@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.api.models.DealResponse
+import com.example.myapplication.api.models.DealsResponse
 import com.example.myapplication.api.repository.ConversionRepository
 import com.example.myapplication.api.repository.DealRepository
 import com.example.myapplication.api.repository.FavoriteRepository
@@ -32,7 +33,7 @@ class DealViewModel @Inject constructor(
     var favoriteDealsList by mutableStateOf<List<Deal>>(emptyList())
         private set
 
-    var deal by mutableStateOf<DealResponse?>(null)
+    var deal by mutableStateOf<Deal?>(null)
         private set
 
     var conversionRate by mutableStateOf<Double>(1.08)
@@ -80,7 +81,7 @@ class DealViewModel @Inject constructor(
                 dealRepository.getDeal(id)
             }
             if (response.isSuccessful) {
-                deal = response.body()
+                deal = response.body()?.toDeal()
             } else {
                 // handle error
             }
@@ -99,11 +100,26 @@ class DealViewModel @Inject constructor(
         }
     }
 
+    private fun DealResponse.toDeal() : Deal {
+        return Deal(
+            unique = unique,
+            title = title,
+            image = null,
+            description = description,
+            sold_label = soldLabel,
+            company = company,
+            city = city,
+            prices = prices,
+            isFavorite = false
+        )
+    }
+
     private fun Deal.toDealEntity(): DealEntity {
         return DealEntity(
             unique = unique,
             title = title,
-            image = image,
+            image = image ?: "",
+            description = description,
             sold_label = sold_label,
             company = company,
             city = city,
@@ -112,11 +128,12 @@ class DealViewModel @Inject constructor(
         )
     }
 
-    fun DealEntity.toDeal(): Deal {
+    private fun DealEntity.toDeal(): Deal {
         return Deal(
             unique = unique,
             title = title,
             image = image,
+            description = description,
             sold_label = sold_label,
             company = company,
             city = city,
