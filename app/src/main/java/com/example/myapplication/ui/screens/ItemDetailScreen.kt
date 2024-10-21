@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.myapplication.R
 import com.example.myapplication.data.Currency
 import com.example.myapplication.data.Deal
 import com.example.myapplication.data.Price
@@ -49,14 +51,14 @@ fun ItemScreen(
                             amount = formattedPrice,
                             currency = Currency(
                                 symbol = if (currency) "$" else "€",
-                                code = if (currency) "USD" else "EUR"
+                                code = if (currency) stringResource(R.string.usd) else stringResource(R.string.eur)
                             )
                         ),
                         fromPrice = Price(
                             amount = formattedFromPrice,
                             currency = Currency(
                                 symbol = if (currency) "$" else "€",
-                                code = if (currency) "USD" else "EUR"
+                                code = if (currency) stringResource(R.string.usd) else stringResource(R.string.eur)
                             )
                         )
                     )

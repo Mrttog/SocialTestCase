@@ -6,6 +6,8 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
+import com.example.myapplication.R
 
 @Composable
 fun BottomNavigationBar(
@@ -20,7 +22,8 @@ fun BottomNavigationBar(
             BottomNavigationItem(
                 icon = {
                     val icon = if (selectedTabIndex == index) item.iconSelected else item.iconUnselected
-                    Icon(imageVector = icon, contentDescription = null)
+                    val color = if (selectedTabIndex == index) colorResource(id = R.color.light_blue) else Color.LightGray
+                    Icon(imageVector = icon, contentDescription = null, tint = color)
                 },
                 selected = selectedTabIndex == index,
                 onClick = { onTabSelected(index) }

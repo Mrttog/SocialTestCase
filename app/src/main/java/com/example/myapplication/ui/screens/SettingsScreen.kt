@@ -13,7 +13,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.R
 import com.example.myapplication.utils.PreferencesManager
 
 @Composable
@@ -28,7 +30,7 @@ fun SettingsScreen(preferencesManager: PreferencesManager) {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Text(text = "EUR")
+        Text(text = stringResource(R.string.eur))
         Switch(
             checked = isDollar,
             onCheckedChange = {
@@ -36,6 +38,6 @@ fun SettingsScreen(preferencesManager: PreferencesManager) {
                 preferencesManager.saveCurrencyPreference(isDollar) // Save preference
             }
         )
-        Text(text = "USD")
+        Text(text = stringResource(R.string.usd))
     }
 }
